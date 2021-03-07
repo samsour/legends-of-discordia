@@ -1,0 +1,8 @@
+{
+    "token": "DISCORD_BOT_TOKEN",
+    "prefix": "~",
+    "mongoPath": "MONGO_DB_URL",
+    "mongoDbName": "MONGO_DB_NAME",
+    "mongoUser": "MONGO_DB_USER",
+    "mongoPassword": "MONGO_DB_PASSWORD"
+}
