@@ -6,10 +6,14 @@
 
 ## Get started
 
+Install all packages:
 ```node
 npm install
-
-npm start
 ```
 
-Have fun. Meem!
+Rename config.json.example to `config.json` and add your credentials to it.
+
+Start the dev server:
+```node
+npm start
+```
