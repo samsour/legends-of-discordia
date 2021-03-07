@@ -11,7 +11,7 @@ Install all packages:
 npm install
 ```
 
-Rename config.json.example to `config.json` and add your credentials to it.
+Copy `config.json.example` and add your credentials to `config.json`.
 
 Start the dev server:
 ```node
