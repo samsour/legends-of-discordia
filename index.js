@@ -12,7 +12,7 @@ client.on('ready', async () => {
 
   await mongo().then(mongoose => {
     try {
-      console.log(mongoose)
+      console.log("MongoDB connection success!")
     } catch (error) {
       console.log(error);
     } finally {
