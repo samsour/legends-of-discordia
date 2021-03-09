@@ -1,6 +1,6 @@
-# Welcome to Legends of Discordia
+![GitHub Banner](https://user-images.githubusercontent.com/37221148/110510449-7b647c00-8103-11eb-8d68-60658017fc01.png)
 
-## An epic adventure on your discord server
+## Welcome to an Epic Adventure on Your Discord Server
 
 ### (featuring Dungeonmaster Detlef)
 
