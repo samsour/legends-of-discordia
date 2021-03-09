@@ -2,9 +2,11 @@
   "name": "legends-of-discordia",
   "version": "0.1.0",
   "description": "Discord RPG Bot",
-  "main": "index.js",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "lint:js": "eslint ./src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,14 @@
   "homepage": "https://github.com/samsour/legends-of-discordia#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "mongoose": "^5.11.19"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "engines": {
+    "node": "14.x.x"
   }
 }
