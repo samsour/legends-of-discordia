@@ -6,7 +6,7 @@ export default async () => {
         useUnifiedTopology: true,
         dbName: process.env.MONGO_DB_NAME,
         user: process.env.MONGO_USER,
-        pass: process.env.MONGO_PASSWORD
+        pass: process.env.MONGO_PASSWORD,
     });
     return mongoose;
-}
+};

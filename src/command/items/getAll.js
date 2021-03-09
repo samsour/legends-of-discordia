@@ -1,4 +1,4 @@
-const itemSystem = require('../../itemSystem')
+const itemSystem = require('../../itemSystem');
 
 module.exports = {
     commands: 'getall',
@@ -6,16 +6,15 @@ module.exports = {
     permissionError: 'You need admin permissions to run this command',
     minArgs: 1,
     maxArgs: 1,
-    callback: async (message, arguments) => {
+    callback: async (message, args) => {
+        const type = args.shift();
+        const items = await itemSystem.getAllItems(type);
 
-      const type = arguments.shift();
-      const items = await itemSystem.getAllItems(type);
-
-      message.reply(
-        `
+        message.reply(
+            `
         All items of type "${type}":
         ${items.join('\n    ')}
-        `
-      )
+        `,
+        );
     },
-  }
+};

@@ -1,23 +1,23 @@
-const mongoose = require('mongoose');
+import { Schema } from 'mongoose';
 
 const requiredString = {
     type: String,
     required: true,
-}
+};
 
-const item = mongoose.Schema({
+const item = new Schema({
     name: requiredString,
     type: requiredString,
     dropsAt: {
         type: Array,
-        required: true
+        required: true,
     },
     value: {
         type: Number,
-        required: true
+        required: true,
     },
     category: String,
     stats: Object,
-})
+});
 
-module.exports = mongoose.model('items', item)
+module.exports = mongoose.model('items', item);

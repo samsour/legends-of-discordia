@@ -6,16 +6,22 @@ import { eventEmitter, Events } from './events.js';
  * and all it does is directly registering events on construct or something.
  */
 export default class DiscordClient {
-    _client;
+    /**
+     * @type {Client}
+     * @private
+     */
+    _client = new Client();
 
+    /**
+     *
+     */
     constructor() {
-        this._client = new Client();
-        this._client.on('ready', () => eventEmitter.emit(Events.DISCORD.READY))
+        this._client.on('ready', () => eventEmitter.emit(Events.DISCORD.READY));
     }
 
     /**
      * @param {string} token
-     * @returns {Promise<string>}
+     * @return {Promise<string>}
      */
     login(token) {
         return this._client.login(token);
