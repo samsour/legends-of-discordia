@@ -6,7 +6,6 @@ const requiredString = {
 }
 
 const item = mongoose.Schema({
-    _id: requiredString,
     name: requiredString,
     type: requiredString,
     dropsAt: {

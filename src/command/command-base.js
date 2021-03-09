@@ -1,5 +1,10 @@
 const { prefix } = require('../config.json')
 
+/**
+ * TODO refactor this into ./regitry.js (may need further, more detailed cuppling)
+ *
+ */
+
 const validatePermissions = (permissions) => {
   const validPermissions = [
     'CREATE_INSTANT_INVITE',
