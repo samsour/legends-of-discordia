@@ -1,4 +1,5 @@
-![GitHub Banner](https://user-images.githubusercontent.com/37221148/110510449-7b647c00-8103-11eb-8d68-60658017fc01.png)
+![GitHub Banner](https://user-images.githubusercontent.com/37221148/110513340-689f7680-8106-11eb-8052-44f8df795fe8.png)
+
 
 ## Welcome to an Epic Adventure on Your Discord Server
 
