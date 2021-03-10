@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { eventEmitter, Events } from './events.js';
+import { eventEmitter, Event } from './event.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
@@ -16,7 +16,7 @@ export default class DiscordClient {
      *
      */
     constructor() {
-        this._client.on('ready', () => eventEmitter.emit(Events.DISCORD.READY));
+        this._client.on('ready', () => eventEmitter.emit(Event.DISCORD.READY));
     }
 
     /**

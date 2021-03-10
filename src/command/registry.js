@@ -1,12 +1,12 @@
-import { eventEmitter, Events } from '../events.js';
+import { eventEmitter, Event } from '../event.js';
 
 export default class CommandRegistry {
     /**
      *
      */
     constructor() {
-        eventEmitter.on(Events.DISCORD.READY, () => {
-            console.log('CommandRegistry received event: ', Events.DISCORD.READY);
+        eventEmitter.on(Event.DISCORD.READY, () => {
+            console.log('CommandRegistry received event: ', Event.DISCORD.READY);
         });
     }
 }
