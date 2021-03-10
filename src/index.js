@@ -1,13 +1,13 @@
 import DiscordClient from './client.js';
 import CommandRegistry from './command/registry.js';
 import dotenv from 'dotenv';
-import DatabaseFactory from './database/databaseFactory.js';
+import DatabaseConnectionFactory from './database/databaseConnectionFactory.js';
 
 // read .env vars into 'process.env'
 dotenv.config();
 
 // setup database connection
-DatabaseFactory.connect();
+DatabaseConnectionFactory.connect();
 
 // setup application
 new CommandRegistry();
@@ -17,7 +17,7 @@ discordClient.login(process.env.TOKEN);
 
 // If the Node process ends, close the Database connection
 process.on('SIGINT', () => {
-    DatabaseFactory.shutDown().then( () => {
+    DatabaseConnectionFactory.shutDown().then( () => {
         console.log('Database disconnected on app termination');
         process.exit(0);
     });

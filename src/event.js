@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
 
 const eventEmitter = new EventEmitter();
-const Events = {
+const Event = {
     DISCORD: {
         READY: 'discord:ready',
     },
 };
 
-export { eventEmitter, Events };
+export { eventEmitter, Event };
