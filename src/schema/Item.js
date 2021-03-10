@@ -1,11 +1,12 @@
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 const requiredString = {
     type: String,
     required: true,
 };
 
-const item = new Schema({
+// eslint-disable-next-line new-cap
+const itemSchema = mongoose.Schema({
     name: requiredString,
     type: requiredString,
     dropsAt: {
@@ -20,4 +21,7 @@ const item = new Schema({
     stats: Object,
 });
 
-module.exports = mongoose.model('items', item);
+/**
+ * @type mongoose.Model
+ */
+export default mongoose.model('items', itemSchema);

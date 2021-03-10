@@ -1,4 +1,4 @@
-import mongodb from './adapter/mongo.js';
+import mongodb from './../database/adapter/Mongo.js';
 
 export default class DatabaseConnectionFactory {
     /**

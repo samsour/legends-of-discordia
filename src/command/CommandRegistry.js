@@ -1,4 +1,4 @@
-import { eventEmitter, Event } from '../event.js';
+import { eventEmitter, Event } from '../Event.js';
 
 export default class CommandRegistry {
     /**

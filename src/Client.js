@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { eventEmitter, Event } from './event.js';
+import { eventEmitter, Event } from './Event.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
