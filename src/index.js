@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import DiscordClient from './Client.js';
-import CommandRegistry from './command/CommandRegistry.js';
+import DiscordClient from './client/Client.js';
 import DatabaseConnectionFactory from './factory/DatabaseConnectionFactory.js';
 
 // read .env vars into 'process.env'
@@ -14,7 +13,6 @@ DatabaseConnectionFactory.connect()
 
 
 // setup application
-new CommandRegistry();
 const discordClient = new DiscordClient();
 
 discordClient.login(process.env.TOKEN);
