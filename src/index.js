@@ -14,8 +14,9 @@ DatabaseConnectionFactory.connect()
 
 
 // setup application
-new CommandRegistry();
 const discordClient = new DiscordClient();
+
+new CommandRegistry();
 
 discordClient.login(process.env.TOKEN);
 
