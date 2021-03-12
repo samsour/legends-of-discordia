@@ -1,36 +1,42 @@
 import { eventEmitter, Event } from '../Event.js';
+import fs from 'fs';
+import path from 'path';
+import Command from './Command.js';
 
 export default class CommandRegistry {
-    /**
-     *
-     */
-    constructor() {
-        eventEmitter.on(Event.DISCORD.READY, () => {
-            console.log('CommandRegistry received event: ', Event.DISCORD.READY);
 
-            const baseFile = 'command-base.js'
-            const commandBase = require(`./commands/${baseFile}`)
+	/**
+	 * @type {Array[Command]}
+	 */
+	commands = [];
 
-            readCommands('commands')
-        });
-    }
+	/**
+	 *
+	 */
+	constructor() {
+		eventEmitter.on(Event.DISCORD.READY, () => {
+			this.readCommands('../command');
+		});
+	}
 
-    /**
-     * 
-     * @param {*} directory 
-     */
-    readCommands(directory) {
-        const files = fs.readdirSync(path.join(__dirname, dir))
-        for (const file of files) {
-          const stat = fs.lstatSync(path.join(__dirname, dir, file))
-          if (stat.isDirectory()) {
-            readCommands(path.join(dir, file))
-          } else if (file !== baseFile) {
-            const option = require(path.join(__dirname, dir, file))
-            commandBase(client, option)
-          }
-        }
-      }
-    
-      
+	/**
+	 * 
+	 * @param {FileSystemDirectoryEntry|string} directory 
+	 */
+	readCommands(directory) {
+		const __dirname = path.dirname(new URL(import.meta.url).pathname);
+		const files = fs.readdirSync(path.join(__dirname, directory));
+
+		for (const file of files) {
+			const statsObject = fs.lstatSync(path.join(__dirname, directory, file));
+
+			if (statsObject.isDirectory()) {
+				readCommands(path.join(directory, file));
+			} else if (file !== Command) {
+				const command = import(path.join(__dirname, directory, file));
+				// TODO: Create class instances of each command dynamically
+				// this.commands.push(new this[command]());
+			}
+		}
+	}
 }

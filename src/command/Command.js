@@ -1,8 +1,7 @@
 export default class Command {
 	/**
-	 *
+	 * @type {Array<string>}
 	 */
-
 	_validPermissions = [
 		'CREATE_INSTANT_INVITE',
 		'KICK_MEMBERS',
@@ -37,36 +36,50 @@ export default class Command {
 		'MANAGE_EMOJIS',
 	]
 
+	// TODO: Provide global variables for command config/options
+
+	// commands = [];
+	// minArgs = 0;
+	// maxArgs = null;
+	// expectedArgs = '';
+	// requiredRoles = [];
+	// permissions = [];
+	// permissionError = 'You do not have permission to run this command.';
+
 	constructor({client, ...options }) {
 		this.config = {
 			commands,
-			expectedArgs = '',
-			permissionError = 'You do not have permission to run this command.',
-			minArgs = 0,
-			maxArgs = null,
-			permissions =[],
-			requiredRoles =[],
-			callback,
+			expectedArgs: '',
+			permissionError: 'You do not have permission to run this command.',
+			minArgs: 0,
+			maxArgs: null,
+			permissions: [],
+			requiredRoles: [],
+			execute,
 			...options
 		}
 
 		// Ensure the command and aliases are in an array
-		if (typeof commands === 'string') {
-			commands = [commands];
+		if (typeof this.config.commands === 'string') {
+			this.config.commands = [this.config.commands];
 		}
 
-		console.log(`Registering command "${commands[0]}"`);
+		console.log(`Registering command "${this.config.commands[0]}"`);
 
 		// Ensure the permissions are in an array and are all valid
-		if (permissions.length) {
-			if (typeof permissions === 'string') {
-				permissions = [permissions];
+		if (this.config.permissions.length) {
+			if (typeof this.config.permissions === 'string') {
+				this.config.permissions = [this.config.permissions];
 			}
 
-			_validatePermissions(permissions);
+			_validatePermissions(this.config.permissions);
 		}
 
 		this.register(client)
+	}
+
+	exectute() {
+		console.log(`Executing function ${this.commands[0]}`);
 	}
 
 	register(client) {
@@ -74,7 +87,7 @@ export default class Command {
 		client.on('message', (message) => {
 			const { member, content, guild } = message;
 
-			for (const alias of commands) {
+			for (const alias of this.config.commands) {
 				const command = `${prefix}${alias.toLowerCase()}`;
 
 				if (
@@ -84,7 +97,7 @@ export default class Command {
 					// A command has been ran
 
 					// Ensure the user has the required permissions
-					for (const permission of permissions) {
+					for (const permission of this.config.permissions) {
 						if (!member.hasPermission(permission)) {
 							message.reply(permissionError);
 							return;
@@ -92,7 +105,7 @@ export default class Command {
 					}
 
 					// Ensure the user has the required roles
-					for (const requiredRole of requiredRoles) {
+					for (const requiredRole of this.config.requiredRoles) {
 						const role = guild.roles.cache.find(
 							(role) => role.name === requiredRole,
 						);
@@ -113,17 +126,17 @@ export default class Command {
 
 					// Ensure we have the correct number of args
 					if (
-						args.length < minArgs ||
-						(maxArgs !== null && args.length > maxArgs)
+						args.length < this.config.minArgs ||
+						(this.config.maxArgs !== null && args.length > this.config.maxArgs)
 					) {
 						message.reply(
-							`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`,
+							`Incorrect syntax! Use ${process.env.PREFIX}${alias} ${this.config.expectedArgs}`,
 						);
 						return;
 					}
 
 					// Handle the custom command code
-					callback(message, args, args.join(' '), client);
+					execute(message, args, args.join(' '), client);
 
 					return;
 				}
