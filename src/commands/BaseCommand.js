@@ -12,7 +12,7 @@ export default class Command {
 		}
 	}
 
-	execute(args) {
+	execute({args}) {
 		console.log(`Command run: "${this.config.aliases[0]}" with ${args}`);
 	}
 }

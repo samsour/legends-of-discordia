@@ -1,5 +1,6 @@
 import { Client } from 'discord.js';
 import CommandHandler from './CommandHandler.js';
+import { eventEmitter, Event } from '../Event.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
@@ -19,7 +20,6 @@ export default class DiscordClient {
         this._commandHandler = new CommandHandler();
         
         this._client.on('ready', () => {
-
             this._commandHandler.readCommands();
         });
 
@@ -50,13 +50,13 @@ export default class DiscordClient {
                     if (typeof selectedCommand[firstArgument] === 'function') {
                         // Delete function argument
                         args.shift();
-                        selectedCommand[firstArgument](args.length > 0 ? args : '');
+                        selectedCommand[firstArgument](args.length > 0 ? {message, args} : {message});
                         return;
                     }
-                    selectedCommand.execute(args);
+                    selectedCommand.execute({message, args});
                     return;
                 }
-                selectedCommand.execute();
+                selectedCommand.execute({message});
             }
         });
     }

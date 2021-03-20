@@ -7,7 +7,7 @@ export default class Shop extends BaseCommand {
         })
     }
 
-    item(args) {
+    item({args}) {
         console.log(`Shopping items: "${args}"`);
     }
 }

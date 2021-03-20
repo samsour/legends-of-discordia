@@ -5,9 +5,13 @@ export default class Ping extends BaseCommand {
         super({
             aliases: ['ping', 'p']
         })
-
     }
-    smash(args) {
-        console.log(`SMASHING ${args}`);
+
+    execute({message}) {
+        message.reply('Pong!');
+    }
+
+    smash({message}) {
+        message.reply('SCHMETTERBALL!');
     }
 }
