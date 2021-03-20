@@ -1,7 +1,7 @@
 import { eventEmitter, Event } from '../Event.js';
 import fs from 'fs';
 import path from 'path';
-import Command from './Command.js';
+import Command from '../commands/BaseCommand.js';
 
 export default class CommandRegistry {
 
@@ -45,40 +45,51 @@ export default class CommandRegistry {
 	_commands = new Map();
 
 	/**
+ 	 * @type {String}
+	 */
+	_commandDirectory = '../commands';
+
+	/**
+	 * @type {String}
+	 */
+	_ignoreFiles = ['BaseCommand.js'];
+
+	/**
 	 * 
 	 * @param {FileSystemDirectoryEntry|string} directory 
 	 */
-	async readCommands(directory) {
+	async readCommands(directory = this._commandDirectory) {
 		const __dirname = path.dirname(new URL(import.meta.url).pathname);
 		const files = fs.readdirSync(path.join(__dirname, directory));
-
+		
 		for (const file of files) {
 			const statsObject = fs.lstatSync(path.join(__dirname, directory, file));
 
 			if (statsObject.isDirectory()) {
 				readCommands(path.join(directory, file));
-			} else if (file !== Command) {
-				const { default: ClassName } = await import(path.join(__dirname, directory, file));
-				this._commands.set(Object.keys(ClassName)[0], ClassName);
+			} else if (!this._ignoreFiles.includes(file)) {
+				const { default: CommandClass } = await import(path.join(__dirname, directory, file));
+				this._commands.set(CommandClass.name, CommandClass);
+
+				console.log(`Registered command: ${CommandClass.name}`);
 			}
 		}
 
-		console.log(`Registered commands: ${this._commands.entries}`);
 	}
 
 	getCommands(message) {
 		const { member, content, guild } = message;
 		const availableCommands = new Map();
 
-		this._commands.forEach((command, key) => {
-
+		this._commands.forEach((Command, key) => {
+			const commandInstance = new Command();
 			// Ensure the permissions are in an array and are all valid
-			if (this.config.permissions.length) {
-				_validatePermissionName(command.config.permissions);
+			if (commandInstance.config.permissions.length) {
+				_validatePermissionName(commandInstance.config.permissions);
 			}
 
 			// Ensure the user has the required permissions
-			for (const permission of command.config.permissions) {
+			for (const permission of commandInstance.config.permissions) {
 				if (!member.hasPermission(permission)) {
 					// TODO: Handle permission error client reply
 					// message.reply(permissionError);
@@ -87,7 +98,7 @@ export default class CommandRegistry {
 			}
 	
 			// Ensure the user has the required roles
-			for (const requiredRole of command.config.requiredRoles) {
+			for (const requiredRole of commandInstance.config.requiredRoles) {
 				const role = guild.roles.cache.find(
 					(role) => role.name === requiredRole,
 				);
@@ -101,8 +112,10 @@ export default class CommandRegistry {
 				}
 			}
 
-			command.config.aliases.forEach(alias => availableCommands.set(alias, command))
-			console.log(`Command registered: "${command.config.aliases[0]}"`);
+			commandInstance.config.aliases.forEach(alias => {
+				availableCommands.set(alias, commandInstance)
+			})
+			console.log(`Command registered: "${commandInstance.config.aliases[0]}"`);
 		})
 		return availableCommands;
 	}

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import DiscordClient from './Client.js';
+import DiscordClient from './client/Client.js';
 import DatabaseConnectionFactory from './factory/DatabaseConnectionFactory.js';
 
 // read .env vars into 'process.env'

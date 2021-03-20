@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import CommandHandler from './command/CommandHandler.js';
+import CommandHandler from './CommandHandler.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
@@ -19,18 +19,23 @@ export default class DiscordClient {
         this._commandHandler = new CommandHandler();
         
         this._client.on('ready', () => {
-            this._commandHandler.readCommands('./');
+
+            this._commandHandler.readCommands();
         });
 
         this._client.on('message', (message) => {
+            console.log("> Client: on message");
             const { member, content, guild } = message;
 
-            // Split on any number of spaces
-            const args = content.split(/[ ]+/);
+            console.log(`Starts with ${process.env.COMMAND_PREFIX}? ${content.startsWith(process.env.COMMAND_PREFIX)}`);
+            if (!content.startsWith(process.env.COMMAND_PREFIX)) return;
             
+            // Split on any number of spaces after the prefix
+            const args = content.slice(process.env.COMMAND_PREFIX.length).trim().split(/[ ]+/);
             // Command typed by user
             const userCommand = args.shift();
 
+            console.log(`User command: ${userCommand}`);
 
             // const command = `${process.env.PREFIX}${alias.toLowerCase()}`;
 
@@ -43,14 +48,15 @@ export default class DiscordClient {
 
                 if (0 < args.length) {
                     if (typeof selectedCommand[firstArgument] === 'function') {
+                        // Delete function argument
                         args.shift();
-                        characterCommand[firstArgument](args);
+                        selectedCommand[firstArgument](args.length > 0 ? args : '');
                         return;
                     }
-                    characterCommand.execute(args);
+                    selectedCommand.execute(args);
                     return;
                 }
-                characterCommand.execute();
+                selectedCommand.execute();
             }
         });
     }
