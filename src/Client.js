@@ -19,7 +19,7 @@ export default class DiscordClient {
         this._commandHandler = new CommandHandler();
         
         this._client.on('ready', () => {
-            this._commandHandler.readCommands('./command');
+            this._commandHandler.readCommands('./');
         });
 
         this._client.on('message', (message) => {

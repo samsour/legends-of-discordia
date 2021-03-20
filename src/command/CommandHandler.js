@@ -5,9 +5,6 @@ import Command from './Command.js';
 
 export default class CommandRegistry {
 
-	/**
-	 * @type {Array<string>}
-	 */
 	_validPermissions = [
 		'CREATE_INSTANT_INVITE',
 		'KICK_MEMBERS',
@@ -74,6 +71,12 @@ export default class CommandRegistry {
 		const availableCommands = new Map();
 
 		this._commands.forEach((command, key) => {
+
+			// Ensure the permissions are in an array and are all valid
+			if (this.config.permissions.length) {
+				_validatePermissionName(command.config.permissions);
+			}
+
 			// Ensure the user has the required permissions
 			for (const permission of command.config.permissions) {
 				if (!member.hasPermission(permission)) {
@@ -99,6 +102,16 @@ export default class CommandRegistry {
 			}
 
 			command.config.aliases.forEach(alias => availableCommands.set(alias, command))
+			console.log(`Command registered: "${command.config.aliases[0]}"`);
 		})
+		return availableCommands;
 	}
+
+	_validatePermissionName(permissions) {
+		for (const permission of permissions) {
+			if (!this._validPermissions.includes(permission)) {
+				throw new Error(`Unknown permission node "${permission}"`);
+			}
+		}
+	};
 }
