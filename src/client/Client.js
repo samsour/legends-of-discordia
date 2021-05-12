@@ -1,6 +1,7 @@
+/** @typedef {import('discord.js/src/structures/Message')} Message */
+
 import { Client } from 'discord.js';
 import CommandHandler from './CommandHandler.js';
-import { eventEmitter, Event } from '../Event.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
@@ -14,51 +15,19 @@ export default class DiscordClient {
     _client = new Client();
 
     /**
+     * @type {CommandHandler}
+     * @private
+     */
+    _commandHandler = new CommandHandler();
+
+    /**
      *
      */
     constructor() {
-        this._commandHandler = new CommandHandler();
-        
-        this._client.on('ready', () => {
-            this._commandHandler.readCommands();
-        });
+        this._client.on('ready', () => this._commandHandler.readCommands());
 
-        this._client.on('message', (message) => {
-            console.log("> Client: on message");
-            const { member, content, guild } = message;
-
-            console.log(`Starts with ${process.env.COMMAND_PREFIX}? ${content.startsWith(process.env.COMMAND_PREFIX)}`);
-            if (!content.startsWith(process.env.COMMAND_PREFIX)) return;
-            
-            // Split on any number of spaces after the prefix
-            const args = content.slice(process.env.COMMAND_PREFIX.length).trim().split(/[ ]+/);
-            // Command typed by user
-            const userCommand = args.shift();
-
-            console.log(`User command: ${userCommand}`);
-
-            // const command = `${process.env.PREFIX}${alias.toLowerCase()}`;
-
-
-            const avaliableCommands = this._commandHandler.getCommands(message);
-
-            if (avaliableCommands.has(userCommand)) {
-                const selectedCommand = avaliableCommands.get(userCommand);
-                const firstArgument = args[0];
-
-                if (0 < args.length) {
-                    if (typeof selectedCommand[firstArgument] === 'function') {
-                        // Delete function argument
-                        args.shift();
-                        selectedCommand[firstArgument](args.length > 0 ? {message, args} : {message});
-                        return;
-                    }
-                    selectedCommand.execute({message, args});
-                    return;
-                }
-                selectedCommand.execute({message});
-            }
-        });
+        /** @var {Message} message */
+        this._client.on('message', (message) => this._handleMessage(message));
     }
 
     /**
@@ -67,5 +36,44 @@ export default class DiscordClient {
      */
     login(token) {
         return this._client.login(token);
+    }
+
+    /**
+     * @param {Message} message
+     * @return {void}
+     */
+    _handleMessage(message) {
+        const { content } = message;
+
+        if (!content.startsWith(process.env.COMMAND_PREFIX)) {
+            return;
+        }
+
+        // Split on any number of spaces after the prefix
+        const args = content.slice(process.env.COMMAND_PREFIX.length).trim().split(/[ ]+/);
+        // Command typed by user
+        const userCommand = args.shift();
+
+        // const command = `${process.env.PREFIX}${alias.toLowerCase()}`;
+
+        const avaliableCommands = this._commandHandler.getCommands(message);
+
+        if (avaliableCommands.has(userCommand)) {
+            const selectedCommand = avaliableCommands.get(userCommand);
+            const commandActionName = args[0];
+
+            if (0 < args.length) {
+                if (typeof selectedCommand[commandActionName] === 'function') {
+                    // Remove action name from function arguments
+                    args.shift();
+
+                    selectedCommand[commandActionName](message, args);
+                    return;
+                }
+                selectedCommand.execute(message, args);
+                return;
+            }
+            selectedCommand.execute(message);
+        }
     }
 }

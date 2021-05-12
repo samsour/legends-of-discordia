@@ -1,13 +1,22 @@
+/** @typedef {import('discord.js/src/structures/Message')} Message */
+
 import BaseCommand from './BaseCommand.js';
 
 export default class Shop extends BaseCommand {
+    /**
+     *
+     */
     constructor() {
         super({
-            aliases: ['shop', 'sh']
-        })
+            aliases: ['shop', 'sh'],
+        });
     }
 
-    item({args}) {
-        console.log(`Shopping items: "${args}"`);
+    /**
+     * @param {Message} message
+     * @param {Array<string>} args
+     */
+    item(message, args = []) {
+        message.reply(`Item "${args.join(' ')}" ist nicht auf lager. Geh weg!`);
     }
 }
