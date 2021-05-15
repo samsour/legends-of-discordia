@@ -1,5 +1,7 @@
 /** @typedef {import('discord.js/src/structures/Message')} Message */
 
+import NotImplementedError from '../error/NotImplementedError.js';
+
 export default class Command {
     /**
      * @param {Array<string>} aliases
@@ -23,6 +25,6 @@ export default class Command {
      * @param {Array<string>} args
      */
     execute(message, args = []) {
-        console.log(`Command run: "${this.config.aliases[0]}" with ${args}`);
+        throw new NotImplementedError();
     }
 }

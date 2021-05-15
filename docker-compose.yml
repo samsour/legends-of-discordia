@@ -12,6 +12,22 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
 
+  node:
+    image: node:14.17
+    working_dir: /var/app/
+    command: npm start
+    volumes:
+      - node_modules:/var/app/src/node_modules
+      - ./:/var/app/
+    environment:
+      NODE_OPTIONS: --experimental-vm-modules # needed for jest to work with ESM
+      MONGO_DB_NAME: ${MONGO_DB_NAME-discordia}
+      MONGO_PATH: ${MONGO_PATH-'mongodb://mongo:27017'}
+    depends_on:
+      - mongo
+
 volumes:
   mongodb:
+    driver: local
+  node_modules:
     driver: local
