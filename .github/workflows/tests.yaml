@@ -1,4 +1,4 @@
-name: Linter
+name: Tests
 
 on:
   push:
@@ -8,8 +8,17 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+' # We don't want this to run on pushed release tags again
 
 jobs:
-  linter:
+  tests:
     runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:4.4.4-bionic
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: SAMPLE_USERNAME
+          MONGO_INITDB_ROOT_PASSWORD: SAMPLE_PASSWORD
+          MONGO_INITDB_DATABASE: discordia_tests
 
     steps:
       - uses: actions/checkout@v2
@@ -30,5 +39,10 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Lint JS
-        run: npm run lint:js
+      - name: Execute Tests
+        env:
+          MONGO_PATH: mongodb://localhost:27017
+          MONGO_DB_NAME: discordia_tests
+          MONGO_USER: SAMPLE_USERNAME
+          MONGO_PASSWORD: SAMPLE_PASSWORD
+        run: NODE_OPTIONS=--experimental-vm-modules npm run test

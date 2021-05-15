@@ -1,41 +1,44 @@
 {
-  "name": "legends-of-discordia",
-  "version": "0.1.0",
-  "description": "Discord RPG Bot",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node ./src/index.js",
-    "lint:js": "eslint ./src/**/*.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/samsour/legends-of-discordia.git"
-  },
-  "keywords": [
-    "discord",
-    "bot",
-    "rpg",
-    "dungeonkeeper",
-    "detlef"
-  ],
-  "author": "Absolute Hell & Awesome Cosmetics",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/samsour/legends-of-discordia/issues"
-  },
-  "homepage": "https://github.com/samsour/legends-of-discordia#readme",
-  "dependencies": {
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "mongoose": "^5.11.19"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.21.0",
-    "eslint-config-google": "^0.14.0"
-  },
-  "engines": {
-    "node": "14.x.x"
-  }
+    "name": "legends-of-discordia",
+    "version": "0.1.0",
+    "description": "Discord RPG Bot",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node ./src/index.js",
+        "lint:js": "eslint ./src/**/*.js",
+        "test": "MONGO_DB_NAME=discordia_tests jest --detectOpenHandles --forceExit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/samsour/legends-of-discordia.git"
+    },
+    "keywords": [
+        "discord",
+        "bot",
+        "rpg",
+        "dungeonkeeper",
+        "detlef"
+    ],
+    "author": "Absolute Hell & Awesome Cosmetics",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/samsour/legends-of-discordia/issues"
+    },
+    "homepage": "https://github.com/samsour/legends-of-discordia#readme",
+    "dependencies": {
+        "discord.js": "^12.5.1",
+        "dotenv": "^8.2.0",
+        "mongoose": "^5.11.19"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.21.0",
+        "eslint-config-google": "^0.14.0",
+        "jest": "^26.6.3",
+        "jest-environment-node": "^26.6.2"
+    },
+    "engines": {
+        "node": "14.x.x"
+    }
 }
