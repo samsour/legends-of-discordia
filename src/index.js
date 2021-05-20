@@ -7,7 +7,6 @@ import * as Sentry from '@sentry/node';
 // read .env vars into 'process.env'
 dotenv.config();
 
-
 // initialize sentry logging
 Sentry.init({
     dsn: `https://${process.env.SENTRY_KEY}@${process.env.SENTRY_ACCOUNT_ID}.ingest.sentry.io/5780113`,
@@ -18,17 +17,13 @@ Sentry.init({
     tracesSampleRate: 1.0,
 });
 
-
 // listen to runtime events
 listen();
 
-
 // setup database connection
-DatabaseConnectionFactory.connect()
-    .catch((error) => {
-        Sentry.captureEvent(error);
-    });
-
+DatabaseConnectionFactory.connect().catch((error) => {
+    Sentry.captureEvent(error);
+});
 
 try {
     // setup application

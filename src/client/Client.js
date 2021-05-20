@@ -50,7 +50,10 @@ export default class DiscordClient {
         }
 
         // Split on any number of spaces after the prefix
-        const args = content.slice(process.env.COMMAND_PREFIX.length).trim().split(/[ ]+/);
+        const args = content
+            .slice(process.env.COMMAND_PREFIX.length)
+            .trim()
+            .split(/[ ]+/);
         // Command typed by user
         const userCommand = args.shift();
 

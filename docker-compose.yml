@@ -1,16 +1,16 @@
 version: '3.1'
 
 services:
-  mongo:
-    image: mongo:4.4.4-bionic
-    volumes:
-      - mongodb:/data/db
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    mongo:
+        image: mongo:4.4.4-bionic
+        volumes:
+            - mongodb:/data/db
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
 
   node:
     image: node:14.17
@@ -27,7 +27,7 @@ services:
       - mongo
 
 volumes:
-  mongodb:
-    driver: local
-  node_modules:
-    driver: local
+    mongodb:
+        driver: local
+    node_modules:
+        driver: local
