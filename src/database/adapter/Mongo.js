@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import * as Sentry from '@sentry/node';
 
 export default async () => {
     try {
@@ -10,8 +11,7 @@ export default async () => {
             pass: process.env.MONGO_PASSWORD,
         });
     } catch (error) {
-        console.log('1621847075 MongoDB connection error:');
-        console.error(error);
+        Sentry.captureException(error);
     }
     return mongoose;
 };

@@ -27,6 +27,7 @@
     },
     "homepage": "https://github.com/samsour/legends-of-discordia#readme",
     "dependencies": {
+        "@sentry/node": "^6.4.1",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
         "mongoose": "^5.12.10"
