@@ -4,9 +4,7 @@
         "browser": false,
         "es2020": true
     },
-    "extends": [
-        "google"
-    ],
+    "extends": ["google"],
     "parserOptions": {
         "ecmaVersion": 12,
         "sourceType": "module"
@@ -18,12 +16,15 @@
         "max-len": ["error", { "code": 120, "ignoreComments": true }],
         "no-var": "off",
         "object-curly-spacing": ["error", "always"],
-        "require-jsdoc": ["error", {
-            "require": {
-                "FunctionDeclaration": true,
-                "MethodDefinition": true,
-                "ClassDeclaration": false
+        "require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "FunctionDeclaration": true,
+                    "MethodDefinition": true,
+                    "ClassDeclaration": false
+                }
             }
-        }]
+        ]
     }
 }

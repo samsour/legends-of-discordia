@@ -14,7 +14,11 @@ describe('ItemFactory', () => {
 
     test('.create() creates Item', async () => {
         const item = await ItemFactory.create(
-            'weapon', 'Eisernes Großschwer', 1234, ['goblins', 'ogars'], 'my category',
+            'weapon',
+            'Eisernes Großschwer',
+            1234,
+            ['goblins', 'ogars'],
+            'my category',
             { range: 1, speed: 0.5, dmg: 32 },
         );
 

@@ -4,7 +4,7 @@ export default class DatabaseConnectionFactory {
     /**
      * @type {Mongoose|undefined}
      */
-    static connection = undefined
+    static connection = undefined;
 
     /**
      * @return {Promise<Mongoose>}

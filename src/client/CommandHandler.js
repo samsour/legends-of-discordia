@@ -36,7 +36,7 @@ export default class CommandRegistry {
         'MANAGE_ROLES',
         'MANAGE_WEBHOOKS',
         'MANAGE_EMOJIS',
-    ]
+    ];
 
     /**
      * @type {Array[Command]}
@@ -44,7 +44,7 @@ export default class CommandRegistry {
     _commands = new Map();
 
     /**
-       * @type {String}
+     * @type {String}
      */
     _commandDirectory = '../commands';
 
@@ -62,12 +62,16 @@ export default class CommandRegistry {
         const files = fs.readdirSync(path.join(directoryName, directory));
 
         for (const file of files) {
-            const statsObject = fs.lstatSync(path.join(directoryName, directory, file));
+            const statsObject = fs.lstatSync(
+                path.join(directoryName, directory, file),
+            );
 
             if (statsObject.isDirectory()) {
                 readCommands(path.join(directory, file));
             } else if (!this._ignoreFiles.includes(file)) {
-                const { default: CommandClass } = await import(path.join(directoryName, directory, file));
+                const { default: CommandClass } = await import(
+                    path.join(directoryName, directory, file)
+                );
                 this._commands.set(CommandClass.name, CommandClass);
             }
         }
@@ -128,5 +132,5 @@ export default class CommandRegistry {
                 throw new Error(`Unknown permission node "${permission}"`);
             }
         }
-    };
+    }
 }
