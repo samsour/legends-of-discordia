@@ -22,7 +22,7 @@ services:
     environment:
       NODE_OPTIONS: --experimental-vm-modules # needed for jest to work with ESM
       MONGO_DB_NAME: ${MONGO_DB_NAME-discordia}
-      MONGO_PATH: ${MONGO_PATH-'mongodb://mongo:27017'}
+      MONGO_PATH: mongodb://mongo:27017
     depends_on:
       - mongo
 
