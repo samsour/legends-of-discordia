@@ -7,7 +7,7 @@
     "scripts": {
         "start": "node ./src/index.js",
         "lint:js": "eslint ./src/**/*.js",
-        "test": "MONGO_DB_NAME=discordia_tests jest --detectOpenHandles --forceExit"
+        "test": "MONGO_DB_NAME=discordia_tests jest --detectOpenHandles --forceExit --coverage"
     },
     "repository": {
         "type": "git",

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import DiscordClient from './client/Client.js';
+import DiscordClient from './client/DiscordClient.js';
 import DatabaseConnectionFactory from './factory/DatabaseConnectionFactory.js';
 import { listen } from './runtimeListeners.js';
 import * as Sentry from '@sentry/node';

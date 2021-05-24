@@ -45,4 +45,12 @@ jobs:
           MONGO_DB_NAME: discordia_tests
           MONGO_USER: SAMPLE_USERNAME
           MONGO_PASSWORD: SAMPLE_PASSWORD
+          COMMAND_PREFIX: '!'
         run: NODE_OPTIONS=--experimental-vm-modules npm run test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+            file: ./coverage/coverage-final.json
+            name: jest unittests
+            fail_ci_if_error: true
