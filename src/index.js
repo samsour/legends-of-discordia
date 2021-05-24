@@ -24,3 +24,19 @@ process.on('SIGINT', () => {
         process.exit(0);
     });
 });
+
+process.on('unhandledRejection', error => {
+    console.log('1621519081 Unhandled rejection error:', error);
+});
+
+// TODO:
+mongoose.connection.on('error',(error)=>{
+    if (count >= 5){
+        console.log('Mongo ERROR');
+        console.error(error);
+        process.exit(1);
+    }
+    else{
+        setTimeout(handleDisconnect,1000);
+    }
+});
