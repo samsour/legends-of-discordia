@@ -1,7 +1,7 @@
 /** @typedef {import('discord.js/src/structures/Message')} Message */
 
-import { Client } from 'discord.js';
-import CommandHandler from './CommandHandler.js';
+import Client from '../../node_modules/discord.js/src/client/Client.js';
+import CommandRegistry from './CommandRegistry.js';
 
 /**
  * TODO i think it'd be cooler if this class actually was the discord.js-client (maybe by extending it?)
@@ -15,16 +15,20 @@ export default class DiscordClient {
     _client = new Client();
 
     /**
-     * @type {CommandHandler}
+     * @type {CommandRegistry}
      * @private
      */
-    _commandHandler = new CommandHandler();
+    _commandRegistry = new CommandRegistry();
 
     /**
-     *
+     * @param {Client} client
+     * @param {CommandRegistry} commandRegistry
      */
-    constructor() {
-        this._client.on('ready', () => this._commandHandler.readCommands());
+    constructor(client = new Client(), commandRegistry = new CommandRegistry()) {
+        this._client = client;
+        this._commandRegistry = commandRegistry;
+
+        this._client.on('ready', () => this._commandRegistry.readCommands());
 
         /** @var {Message} message */
         this._client.on('message', (message) => this._handleMessage(message));
@@ -56,7 +60,7 @@ export default class DiscordClient {
 
         // const command = `${process.env.PREFIX}${alias.toLowerCase()}`;
 
-        const avaliableCommands = this._commandHandler.getCommands(message);
+        const avaliableCommands = this._commandRegistry.getCommands(message);
 
         if (avaliableCommands.has(userCommand)) {
             const selectedCommand = avaliableCommands.get(userCommand);
