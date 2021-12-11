@@ -15,7 +15,7 @@
         "indent": ["error", 4],
         "prefer-rest-params": 0,
         "no-invalid-this": 0,
-        "max-len": ["error", { "code": 120, "ignoreComments": true }],
+        "max-len": ["error", { "code": 140, "ignoreComments": true }],
         "no-var": "off",
         "object-curly-spacing": ["error", "always"],
         "require-jsdoc": ["error", {

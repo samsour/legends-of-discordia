@@ -12,6 +12,10 @@ describe('ItemFactory', () => {
         await mongoose.connection.db.dropDatabase();
     });
 
+    afterAll( async () => {
+        await DatabaseConnectionFactory.shutDown();
+    })
+
     test('.create() creates Item', async () => {
         const item = await ItemFactory.create(
             'weapon', 'Eisernes Großschwer', 1234, ['goblins', 'ogars'], 'my category',

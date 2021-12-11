@@ -2,19 +2,26 @@
 
 import NotImplementedError from '../error/NotImplementedError.js';
 
-export default class Command {
+export default class BaseCommand {
+    /**
+     * @type {Object}
+     */
+    config = {
+        expectedArgs: '',
+        permissionError: 'You do not have permission to run this command.',
+        minArgs: 0,
+        maxArgs: null,
+        permissions: [],
+        requiredRoles: [],
+    };
+
     /**
      * @param {Array<string>} aliases
      * @param {Object} options
      */
     constructor(aliases = [], options = {}) {
         this.config = {
-            expectedArgs: '',
-            permissionError: 'You do not have permission to run this command.',
-            minArgs: 0,
-            maxArgs: null,
-            permissions: [],
-            requiredRoles: [],
+            ...this.config,
             aliases,
             ...options,
         };

@@ -118,3 +118,5 @@ dist
 # Config json files
 config.json
 config.json.example
+
+coverage

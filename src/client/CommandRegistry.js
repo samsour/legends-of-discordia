@@ -1,4 +1,5 @@
 /** @typedef {import('discord.js/src/structures/Message')} Message */
+/** @typedef {import('./../commands/BaseCommand')} BaseCommand */
 
 import fs from 'fs';
 import path from 'path';
@@ -36,10 +37,10 @@ export default class CommandRegistry {
         'MANAGE_ROLES',
         'MANAGE_WEBHOOKS',
         'MANAGE_EMOJIS',
-    ]
+    ];
 
     /**
-     * @type {Array[Command]}
+     * @type {Map<string, Class<BaseCommand>>}
      */
     _commands = new Map();
 
@@ -65,7 +66,7 @@ export default class CommandRegistry {
             const statsObject = fs.lstatSync(path.join(directoryName, directory, file));
 
             if (statsObject.isDirectory()) {
-                readCommands(path.join(directory, file));
+                await this.readCommands(path.join(directory, file));
             } else if (!this._ignoreFiles.includes(file)) {
                 const { default: CommandClass } = await import(path.join(directoryName, directory, file));
                 this._commands.set(CommandClass.name, CommandClass);
@@ -83,9 +84,10 @@ export default class CommandRegistry {
 
         this._commands.forEach((Command, key) => {
             const commandInstance = new Command();
+
             // Ensure the permissions are in an array and are all valid
-            if (commandInstance.config.permissions.length) {
-                _validatePermissionName(commandInstance.config.permissions);
+            if (this._validateCommandPermissionNames(commandInstance.config.permissions) === false) {
+                return;
             }
 
             // Ensure the user has the required permissions
@@ -103,7 +105,11 @@ export default class CommandRegistry {
                     (role) => role.name === requiredRole,
                 );
 
-                if (!role || !member.roles.cache.has(role.id)) {
+                if (role && member.hasPermission(requiredRole)) {
+                    continue;
+                }
+
+                if ( !(( role || member.hasPermission(requiredRole) ) && !( role && member.hasPermission(requiredRole) )) ) {
                     // TODO: Handle permission error client reply
                     // message.reply(
                     //     `You must have the "${requiredRole}" role to use this command.`,
@@ -121,12 +127,19 @@ export default class CommandRegistry {
 
     /**
      * @param {Array<string>} permissions
+     * @return {boolean}
+     * @private
      */
-    _validatePermissionName(permissions) {
+    _validateCommandPermissionNames(permissions) {
+        if (permissions.length === 0) {
+            return true;
+        }
+
         for (const permission of permissions) {
             if (!this._validPermissions.includes(permission)) {
-                throw new Error(`Unknown permission node "${permission}"`);
+                return false;
             }
         }
+        return true;
     };
 }
