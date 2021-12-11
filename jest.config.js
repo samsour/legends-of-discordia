@@ -8,11 +8,11 @@ export default {
     transform: {},
     coverageReporters: ['json', 'text'],
     modulePathIgnorePatterns: ['__mocks__'],
-    // coverageThreshold: {
-    //     global: {
-    //         branches: 100,
-    //         functions: 100,
-    //         lines: 100,
-    //     }
-    // }
+    coverageThreshold: {
+        global: {
+            branches: 77.27,
+            functions: 73.68,
+            lines: 91.01,
+        },
+    },
 };

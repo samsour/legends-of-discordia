@@ -16,6 +16,37 @@ describe('DiscordClient', () => {
         expect(client._client.on).toHaveBeenNthCalledWith(2, 'message', expect.any(Function));
     });
 
+    test('._handleMessage() early returns if incomming message does not start with COMMAND_PREFIX', () => {
+        const message = new Message([], [], 'test with no prefix');
+
+        client._handleMessage(message);
+
+        expect(client._commandRegistry.getCommands).toHaveBeenCalledTimes(0);
+    });
+
+    test('._handleMessage() calls commandRegistry to fetch valid commands and calls command.execute() without extra arguments', () => {
+        const message = new Message([], [], '!test');
+
+        const command = {
+            config: {
+                aliases: ['test'],
+                permissions: [],
+                requiredRoles: ['USE_VAD'],
+            },
+            execute: jest.fn(),
+        };
+
+        client._commandRegistry.getCommands = jest.fn().mockReturnValueOnce(
+            (new Map).set('test', command)
+        );
+
+        client._handleMessage(message);
+
+        expect(client._commandRegistry.getCommands).toHaveBeenCalledTimes(1);
+        expect(command.execute).toHaveBeenCalledTimes(1);
+        expect(command.execute).toHaveBeenCalledWith(message, []);
+    });
+
     test('._handleMessage() calls commandRegistry to fetch valid commands and calls command.execute() with params', () => {
         const message = new Message([], [], '!test with params');
 
